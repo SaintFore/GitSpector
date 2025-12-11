@@ -17,11 +17,13 @@ async def run_client():
             # print(type(tools))  # mcp.types.ListToolsResult
             print(f"发现工具: {[tool.name for tool in tools.tools]}")
 
-            result = await session.call_tool("hello_user", arguments={"name": "merlin"})
+            result = await session.call_tool(
+                "get_github_profile", arguments={"username": "SaintFore"}
+            )
             # print(type(result))
             # print(result)  # meta content是TextContent的list, structuredContent是dict, isError
             sr = result.structuredContent or {}
-            print(f"result: {sr["result"]}")
+            print(f"result: {sr.get("result")}")
 
 
 if __name__ == "__main__":

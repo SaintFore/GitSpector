@@ -18,7 +18,12 @@ async def run_client():
             print(f"发现工具: {[tool.name for tool in tools.tools]}")
 
             result = await session.call_tool(
-                "list_repos", arguments={"username": "SaintFore", "limit": 10}
+                "read_file",
+                arguments={
+                    "username": "SaintFore",
+                    "repo": "CoinWatcher",
+                    "path": "README.md",
+                },
             )
             # print(type(result))
             # print(result)  # meta content是TextContent的list, structuredContent是dict, isError

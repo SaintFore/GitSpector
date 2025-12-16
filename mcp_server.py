@@ -34,6 +34,43 @@ async def get_github_profile(username: str) -> str:
         """
 
 
+@mcp.tool()
+async def list_repos(username: str, limit: int = 5) -> str:
+    """
+    列出用户公开的仓库列表，按更新时间排序。
+    Args:
+        username: GitHub 用户名
+        limit: 返回仓库的最大数量 (默认 5 个)
+    """
+    url = f"https://api.github.com/users/{username}/repos?sort=updated"
+
+    async with httpx.AsyncClient() as client:
+        headers = {"User-Agent": "GitSpector/1.0"}
+        resp = await client.get(url, headers=headers)
+
+        if resp.status_code != 200:
+            return f"Error: 无法获取仓库列表 (Status: {resp.status_code})"
+
+        repos = resp.json()
+
+        recent_repos = repos[:limit]
+
+        repo_lines = []
+        for repo in recent_repos:
+            name = repo.get("name")
+            stars = repo.get("stargazers_count")
+            lang = repo.get("language") or "未知语言"
+            url = repo.get("html_url")
+
+            line = f"- [{name}] (★{stars}) {lang}: {url}"
+            repo_lines.append(line)
+
+        if not repo_lines:
+            return "该用户没有公开仓库。"
+
+        return f"用户 {username} 的最近 {limit} 个仓库:\n" + "\n".join(repo_lines)
+
+
 def main():
     mcp.run()
 

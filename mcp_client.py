@@ -18,11 +18,10 @@ async def run_client():
             print(f"发现工具: {[tool.name for tool in tools.tools]}")
 
             result = await session.call_tool(
-                "read_file",
+                "star_repo",
                 arguments={
-                    "username": "SaintFore",
+                    "owner": "SaintFore",
                     "repo": "CoinWatcher",
-                    "path": "README.md",
                 },
             )
             # print(type(result))

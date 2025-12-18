@@ -16,10 +16,10 @@ headers = {
 }
 
 
-@mcp.tool()
-def hello_user(name: str) -> str:
-    """打招呼"""
-    return f"good afternoon {name}"
+# @mcp.tool()
+# def hello_user(name: str) -> str:
+#     """打招呼"""
+#     return f"good afternoon {name}"
 
 
 @mcp.tool()
